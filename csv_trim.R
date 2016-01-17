@@ -36,8 +36,9 @@ for(i in 1:d){
 	param_trix[i,1] <- unlist(strsplit(parameters_raw[i,9], ':'))[tail]
 	# msm__lag_time
 	param_trix[i,2] <- unlist(strsplit(parameters_raw[i,19], ':'))[tail]
-	# tica__lag_time
-	param_trix[i,3] <- unlist(strsplit(parameters_raw[i,23], ':'))[tail]
+    # tica__lag_time
+    temp <- unlist(strsplit(parameters_raw[i,23], ':'))[tail]
+    param_trix[i,3] <- unlist(strsplit(temp,'}'))
 	# tica__n_components
 	param_trix[i,4] <- unlist(strsplit(parameters_raw[i,20], ':'))[tail]
 	# tica__gamma
