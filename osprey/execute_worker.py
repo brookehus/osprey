@@ -13,6 +13,7 @@ from six import iteritems
 from six.moves import cStringIO
 from sqlalchemy import func
 from sklearn.base import clone, BaseEstimator
+import numpy as np
 
 from . import __version__
 from .config import Config
@@ -44,6 +45,10 @@ def execute(args, parser):
           % (len(X), 'out' if y is None else ''))
     print('The elements have shape: [%s' %
           ', '.join([str(X[i].shape) for i in range(min(len(X), 20))]), end='')
+          ', '.join([str(X[i].shape)
+                     if isinstance(X[i], (np.ndarray, np.generic))
+                     else '(%s,)' % len(X[i])
+                     for i in range(min(len(X), 20))]), end='')
     print(', ...]' if (len(X) > 20) else ']')
     print('Instantiated estimator:')
     print('  %r' % estimator)
@@ -86,7 +91,7 @@ def initialize_trial(strategy, searchspace, estimator, config_sha1,
     with sessionbuilder() as session:
         # requery the history ever iteration, because another worker
         # process may have written to it in the mean time
-        history = [[t.parameters, t.mean_test_score, t.status]
+        history = [[t.parameters, t.test_scores, t.status]
                    for t in session.query(Trial).all()]
 
         print('History contains: %d trials' % len(history))
