@@ -16,9 +16,14 @@ def execute(args, parser):
     else:
         c_b_m = items[np.argmax([i["mean_test_score"] for i in items])]
         parameter_dict = c_b_m["parameters"]
+        weighted_mean = c_b_m["mean_test_score"]
+        raw_test_scores = np.array(c_b_m["test_scores"])
+        raw_test_weights = np.array(c_b_m["n_test_samples"])
+        weighted_var = np.average((raw_test_scores - weighted_mean)**2, weights=raw_test_weights)
+        weighted_std = np.sqrt(weighted_var)
         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-        print('Best Current Model = %f +- %f' % (c_b_m["mean_test_score"],
-                                                 np.std(c_b_m["test_scores"])))
+        print('Best Current Model = %f +- %f' % (weighted_mean,
+                                                 weighted_std))
         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         print('PipelineStep\tParamter \t Value')
         for i in config.estimator().steps:

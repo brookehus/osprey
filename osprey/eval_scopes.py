@@ -5,7 +5,7 @@ import pkgutil
 import inspect
 import importlib
 
-from osprey.scope import _SCOPE_
+#from osprey.scope import _SCOPE_
 from sklearn.base import BaseEstimator
 
 
@@ -32,7 +32,7 @@ def import_all_estimators(pkg):
             if inspect.isclass(obj) and issubclass(obj, BaseEstimator):
                 yield obj
 
-    result = _SCOPE_
+    result = {} #_SCOPE_
     for _, modname, ispkg in pkgutil.iter_modules(pkg.__path__):
         c = '%s.%s' % (pkg.__name__, modname)
         try:

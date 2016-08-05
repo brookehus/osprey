@@ -43,13 +43,6 @@ def execute(args, parser):
     X, y = config.dataset()
     print('Dataset contains %d element(s) with %s labels'
           % (len(X), 'out' if y is None else ''))
-    print('The elements have shape: [%s' %
-          ', '.join([str(X[i].shape) for i in range(min(len(X), 20))]), end='')
-          ', '.join([str(X[i].shape)
-                     if isinstance(X[i], (np.ndarray, np.generic))
-                     else '(%s,)' % len(X[i])
-                     for i in range(min(len(X), 20))]), end='')
-    print(', ...]' if (len(X) > 20) else ']')
     print('Instantiated estimator:')
     print('  %r' % estimator)
     print(searchspace)
