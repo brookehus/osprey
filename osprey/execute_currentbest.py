@@ -33,12 +33,16 @@ def execute(args, parser):
         #                                          weighted_std))
 
         all_test_scores = np.nan_to_num(np.array([i["test_scores"]
-                                                  for i in items],
+                                                  for i in items
+                                                  if i["test_scores"] is not None],
                                                   dtype=float))
+
         all_medians = np.median(all_test_scores, axis=1)
         zipped_list = zip(all_medians, all_test_scores)
         maxmed = all_test_scores[all_medians.argmax()]
-        cbm_index = [index for index, i in enumerate(items) if np.all(i["test_scores"] == maxmed)]
+        cbm_index = [index for index, i in enumerate(items)
+                     if i["test_scores"] is not None
+                     and np.all(i["test_scores"] == maxmed)]
 
         cbm = items[cbm_index[0]]
         parameter_dict = cbm["parameters"]
