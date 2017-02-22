@@ -32,6 +32,14 @@ def execute(args, parser):
         # print('Best Current Model = %f +- %f' % (weighted_mean,
         #                                          weighted_std))
 
+        # all_test_scores = np.nan_to_num(np.array([i["test_scores"]
+        #                                           for i in items],
+        #                                           dtype=float))
+
+        # for i in items:
+        #     print(i["test_scores"])
+        #     print(i["test_scores"] == None)
+
         all_test_scores = np.nan_to_num(np.array([i["test_scores"]
                                                   for i in items
                                                   if i["test_scores"] is not None],
